@@ -1634,7 +1634,7 @@ export async function participantsUpdate({ id, participants, action }) {
       if (chat.welcome && !chat?.isBanned) {
         const groupMetadata = await m.conn.groupMetadata(id) || (conn.chats[id] || {}).metadata;
         for (const user of participants) {
-          let pp = 'https://raw.githubusercontent.com/BrunoSobrino/TheMystic-Bot-MD/master/src/avatar_contact.png';
+          let pp = 'https://telegra.ph/file/1c5c89beaf762a0be6c11.jpg';
           try {
             pp = await m.conn.profilePictureUrl(user, 'image');
           } catch (e) {
