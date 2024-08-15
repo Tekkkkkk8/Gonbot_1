@@ -1644,8 +1644,8 @@ export async function participantsUpdate({ id, participants, action }) {
             const userPrefix = antiArab.some((prefix) => user.startsWith(prefix));
             const botTt2 = groupMetadata.participants.find((u) => m.conn.decodeJid(u.id) == m.conn.user.jid) || {};
             const isBotAdminNn = botTt2?.admin === 'admin' || false;
-            text = (action === 'add' ? (chat.sWelcome || tradutor.texto1 || conn.welcome || 'Welcome, @user!').replace('@subject', await m.conn.getName(id)).replace('@desc', groupMetadata.desc?.toString() || '*𝚂𝙸𝙽 𝙳𝙴𝚂𝙲𝚁𝙸𝙿𝙲𝙸𝙾𝙽*') :
-              (chat.sBye || tradutor.texto2 || conn.bye || 'Bye, @user!')).replace('@user', '@' + user.split('@')[0]);
+            text = (action === 'add' ? (chat.sWelcome || tradutor.texto1 || conn.welcome || 'اهلا بيك ياحب ف جروبنا ان شاءالله تتفاعل معانا, @user!').replace('@subject', await m.conn.getName(id)).replace('@desc', groupMetadata.desc?.toString() || '*اقرء الوصف*') :
+              (chat.sBye || tradutor.texto2 || conn.bye || 'مع السلامه ياعم هي وقفت عليك, @user!')).replace('@user', '@' + user.split('@')[0]);
             if (userPrefix && chat.antiArab && botTt.restrict && isBotAdminNn && action === 'add') {
               const responseb = await m.conn.groupParticipantsUpdate(id, [user], 'remove');
               if (responseb[0].status === '404') return;
@@ -1661,12 +1661,12 @@ export async function participantsUpdate({ id, participants, action }) {
     case 'promote':
     case 'daradmin':
     case 'darpoder':
-      text = (chat.sPromote || tradutor.texto3 || conn.spromote || '@user ```is now Admin```');
+      text = (chat.sPromote || tradutor.texto3 || conn.spromote || '@user ```انت الان ادمن اتبسط بقا```');
     case 'demote':
     case 'quitarpoder':
     case 'quitaradmin':
       if (!text) {
-        text = (chat.sDemote || tradutor.texto4 || conn.sdemote || '@user ```is no longer Admin```');
+        text = (chat.sDemote || tradutor.texto4 || conn.sdemote || '@user ```ياعيني رجع عضو😂```');
       }
       text = text.replace('@user', '@' + participants[0].split('@')[0]);
       if (chat.detect && !chat?.isBanned) {
@@ -1696,10 +1696,10 @@ export async function groupsUpdate(groupsUpdate) {
     if (groupUpdate.subjectTime) continue;
     const chats = global.db.data.chats[id]; let text = '';
     if (!chats?.detect) continue;
-    if (groupUpdate.desc) text = (chats.sDesc || tradutor.texto5 || conn.sDesc || '```Description has been changed to```\n@desc').replace('@desc', groupUpdate.desc);
-    if (groupUpdate.subject) text = (chats.sSubject || tradutor.texto6 || conn.sSubject || '```Subject has been changed to```\n@subject').replace('@subject', groupUpdate.subject);
-    if (groupUpdate.icon) text = (chats.sIcon || tradutor.texto7 || conn.sIcon || '```Icon has been changed to```').replace('@icon', groupUpdate.icon);
-    if (groupUpdate.revoke) text = (chats.sRevoke || tradutor.texto8 || conn.sRevoke || '```Group link has been changed to```\n@revoke').replace('@revoke', groupUpdate.revoke);
+    if (groupUpdate.desc) text = (chats.sDesc || tradutor.texto5 || conn.sDesc || '```تم تغيير وصف الجروب الى```\n@desc').replace('@desc', groupUpdate.desc);
+    if (groupUpdate.subject) text = (chats.sSubject || tradutor.texto6 || conn.sSubject || '```تم تغيير اسم المجموعه الى```\n@subject').replace('@subject', groupUpdate.subject);
+    if (groupUpdate.icon) text = (chats.sIcon || tradutor.texto7 || conn.sIcon || '```تم تغيير صورة المجموعة```').replace('@icon', groupUpdate.icon);
+    if (groupUpdate.revoke) text = (chats.sRevoke || tradutor.texto8 || conn.sRevoke || '```تم تغيير لينك المجموعة```\n@revoke').replace('@revoke', groupUpdate.revoke);
     if (!text) continue;
     await mconn.conn.sendMessage(id, { text, mentions: mconn.conn.parseMention(text) });
   }
