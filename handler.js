@@ -899,6 +899,7 @@ export async function handler(chatUpdate) {
           wolflastfeed: 0,
           wood: 0,
           wortel: 0,
+          language: 'es',
         };
       }
       const akinator = global.db.data.users[m.sender].akinator;
@@ -1266,11 +1267,11 @@ const messageText = `_*< USUARIO SUSPENDIDO />*_\n
           m.exp += xp;
         }
         if (!isPrems && plugin.limit && global.db.data.users[m.sender].limit < plugin.limit * 1) {
-          mconn.conn.reply(m.chat, `*[ ℹ️ ] Sus diamantes se han agotado, puede adquirir más con el comando:* _${usedPrefix}buyall_`, m);
+          mconn.conn.reply(m.chat, `*[ 💱 ] لقد نفد الماس الخاص بك، يمكنك شراء المزيد باستخدام الأمر:* _${usedPrefix}buyall_`, m);
           continue; 
         }
         if (plugin.level > _user.level) {
-          mconn.conn.reply(m.chat, `*[ ℹ️ ] Se require tener el nivel ${plugin.level} para poder utilizar el comando. Tú nivel actual es ${_user.level}, usa el comando ${usedPrefix}lvl para subir tu nivel con XP.*`, m);
+          mconn.conn.reply(m.chat, `*[ 💱 ] ويشترط أن يكون المستوى ${plugin.level} لتتمكن من استخدام الأمر.  أنت ${_user.level}, استخدم الأمر ${usedPrefix} لفل لرفع مستواك اكسبي.*`, m);
           continue; 
         }
         const extra = {
@@ -1339,7 +1340,7 @@ const messageText = `_*< USUARIO SUSPENDIDO />*_\n
             }
           }
           if (m.limit) {
-            m.reply('*[ ℹ️ ] Se utilizaron ' + +m.limit + ' diamante(s) (limites).*');
+            m.reply('*[ 💠 ] تم استخدامها ' + +m.limit + ' الماس (الماس) (الحدود).*');
           }
         }
         break;
@@ -1403,7 +1404,8 @@ const messageText = `_*< USUARIO SUSPENDIDO />*_\n
     const settingsREAD = global.db.data.settings[mconn.conn.user.jid] || {};
     if (opts['autoread']) await mconn.conn.readMessages([m.key]);
     if (settingsREAD.autoread2) await mconn.conn.readMessages([m.key]);
-}}
+  }
+}
 
 /**
  * Handle groups participants update
@@ -1433,8 +1435,8 @@ export async function participantsUpdate({id, participants, action}) {
             const userPrefix = antiArab.some((prefix) => user.startsWith(prefix));
             const botTt2 = groupMetadata.participants.find((u) => m.conn.decodeJid(u.id) == m.conn.user.jid) || {};
             const isBotAdminNn = botTt2?.admin === 'admin' || false;
-            text = (action === 'add' ? (chat.sWelcome || this.welcome || conn.welcome || 'نورتنا ياحب وان شاء الله تتفاعل معانا دايما, @user!').replace('@subject', await m.conn.getName(id)).replace('@desc', groupMetadata.desc?.toString() || '*شوف الوصف*') :
-                              (chat.sBye || this.bye || conn.bye || 'ف ستين داهيه هي واقفه عليك؟, @user!')).replace('@user', '@' + user.split('@')[0]);
+            text = (action === 'add' ? (chat.sWelcome || this.welcome || conn.welcome || 'Welcome, @user!').replace('@subject', await m.conn.getName(id)).replace('@desc', groupMetadata.desc?.toString() || '*𝚂𝙸𝙽 𝙳𝙴𝚂𝙲𝚁𝙸𝙿𝙲𝙸𝙾𝙽*') :
+                              (chat.sBye || this.bye || conn.bye || 'Bye, @user!')).replace('@user', '@' + user.split('@')[0]);
             if (userPrefix && chat.antiArab && botTt.restrict && isBotAdminNn && action === 'add') {
               const responseb = await m.conn.groupParticipantsUpdate(id, [user], 'remove');
               if (responseb[0].status === '404') return;
@@ -1450,12 +1452,12 @@ export async function participantsUpdate({id, participants, action}) {
     case 'promote':
     case 'daradmin':
     case 'darpoder':
-      text = (chat.sPromote || this.spromote || conn.spromote || '@user ```يلا نبارك للعضو بتاعنا بقا مشرف قد الدنيا```');
+      text = (chat.sPromote || this.spromote || conn.spromote || '@user ```is now Admin```');
     case 'demote':
     case 'quitarpoder':
     case 'quitaradmin':
       if (!text) {
-        text = (chat.sDemote || this.sdemote || conn.sdemote || '@user ```يديني رجعت عضو يامشرف ياكحيان😂```');
+        text = (chat.sDemote || this.sdemote || conn.sdemote || '@user ```is no longer Admin```');
       }
       text = text.replace('@user', '@' + participants[0].split('@')[0]);
       if (chat.detect && !chat?.isBanned) {
@@ -1480,10 +1482,10 @@ export async function groupsUpdate(groupsUpdate) {
     if (groupUpdate.subjectTime) continue;
     const chats = global.db.data.chats[id]; let text = '';
     if (!chats?.detect) continue;
-    if (groupUpdate.desc) text = (chats.sDesc || this.sDesc || conn.sDesc || '```تم تغيير وصف الجروب```\n@desc').replace('@desc', groupUpdate.desc);
-    if (groupUpdate.subject) text = (chats.sSubject || this.sSubject || conn.sSubject || '```تم تغيير اسم الجروب```\n@subject').replace('@subject', groupUpdate.subject);
-    if (groupUpdate.icon) text = (chats.sIcon || this.sIcon || conn.sIcon || '```تم تغيير صورة الجروب```').replace('@icon', groupUpdate.icon);
-    if (groupUpdate.revoke) text = (chats.sRevoke || this.sRevoke || conn.sRevoke || '```تم تغيير لينك الجروب```\n@revoke').replace('@revoke', groupUpdate.revoke);
+    if (groupUpdate.desc) text = (chats.sDesc || this.sDesc || conn.sDesc || '```Description has been changed to```\n@desc').replace('@desc', groupUpdate.desc);
+    if (groupUpdate.subject) text = (chats.sSubject || this.sSubject || conn.sSubject || '```Subject has been changed to```\n@subject').replace('@subject', groupUpdate.subject);
+    if (groupUpdate.icon) text = (chats.sIcon || this.sIcon || conn.sIcon || '```Icon has been changed to```').replace('@icon', groupUpdate.icon);
+    if (groupUpdate.revoke) text = (chats.sRevoke || this.sRevoke || conn.sRevoke || '```Group link has been changed to```\n@revoke').replace('@revoke', groupUpdate.revoke);
     if (!text) continue;
     await mconn.conn.sendMessage(id, {text, mentions: mconn.conn.parseMention(text)});
   }
@@ -1518,12 +1520,12 @@ let date = d.toLocaleDateString('es', { day: 'numeric', month: 'long', year: 'nu
 	if (!chat?.antidelete) return 
         if (!msg) return 
 	if (!msg?.isGroup) return 
-	const antideleteMessage = `_*< ANTI-DELETE />*_\n
- ▢ *Usuario:* @${participant.split`@`[0]}
- ▢ *Hora:* ${time}
- ▢ *Fecha:* ${date}\n
- ▢ *Enviando el mensaje eliminado...*\n
- *[ ℹ️ ] Para desactivar la función* _antidelete_*, envia el siguiente comando:* _/disable antidelete_`.trim();
+	const antideleteMessage = `_*< الرساله المحذوفه />*_\n
+ ▢ *المستخدم:* @${participant.split`@`[0]}
+ ▢ *الوقت:* ${time}
+ ▢ *التاريخ:* ${date}\n
+ ▢ *جاري ارسال الرساله المحذوفه...*\n
+ *[ 📌 ] لتعطيل وظيفة* _antidelete_* أرسل الأمر التالي:* _/disable antidelete_`.trim();
         await mconn.conn.sendMessage(msg.chat, {text: antideleteMessage, mentions: [participant]}, {quoted: msg})
         mconn.conn.copyNForward(msg.chat, msg).catch(e => console.log(e, msg))
     } catch (e) {
@@ -1533,22 +1535,38 @@ let date = d.toLocaleDateString('es', { day: 'numeric', month: 'long', year: 'nu
 
 global.dfail = (type, m, conn) => {
   const msg = {
-    rowner: '*[ ℹ️ ] الامر ده للمطور بس يابابا متلعبش فيه.*',
-    owner: '*[ ℹ️ ] الامر ده للمطور بس يابابا متلعبش فيه.*',
-    mods: '*[ ℹ️ ] الامر ده للمشرفين والمطور بس ياحب.*',
-    premium: '*[ ℹ️ ] الامر ده للمميزين والمطور بس.*',
-    group: '*[ ℹ️ ] الامر ده بيستخدم ف الجروب بس.*',
-    private: '*[ ℹ️ ] الامر ده ف الخاص فقط.*',
-    admin: '*[ ℹ️ ] الامر ده للمشرفين بس ياعضو😂.*',
-    botAdmin: '*[ ℹ️ ] لازم البوت يكون مشرف عشان تقدر تستخدم الامر ده.*',
-    unreg: '*[ ℹ️ ] عشان تستخدم الامر ده لازم تكون مسجل.*\n\n*[ 💡 ] مثلا:* _/سجل غون.17 *للتسجيل.*',
-    restrict: '*[ ℹ️ ] الامر ده المطور قافله.*',
-  }[type];
-  const aa = {quoted: m, userJid: conn.user.jid};
-  const prep = generateWAMessageFromContent(m.chat, {extendedTextMessage: {text: msg, contextInfo: {externalAdReply: {title: '*[ 🍊 ] Advertencia*', body: 'follow-me', thumbnail: imagen1, sourceUrl: 'https://www.instagram.com/mauhamed_98'}}}}, aa);
-  if (msg) return conn.relayMessage(m.chat, prep.message, {messageId: prep.key.id});
+        rowner: '*『 الميزه دي للمطور بس! 』*',
+        owner: '*『 الميزه دي للمطور بس يحب ! 』*',
+        mods: '*『 الميزه دي لمطور البوت بس ! 』*',
+        premium: '*『 الميزه دي للاعضاء المميزين بس ! 』*',
+        group: '*『 الميزه دي في الجروبات بس ! 』*',
+        private: '*『 الميزه دي للبرايفت - الخاص بس ! 』*',
+        admin: '*『 الميزه دي للادمن بس! 』*',
+        botAdmin: '*『 ارفع البوت ادمن الاول ! 』*',
+        unreg: '*[ لحظة !! انت مش مسجل ]*\n\n*『 سجل الامر عشان تفعله 』*\n*➣ #تسجيل*',
+        restrict: '*『 الميزه دي المطور لغيها ! 』*'
+    }[type]
+  const aa = {
+    'quoted': m,
+    'userJid': conn['user']['jid']
+  },
+  prep = generateWAMessageFromContent(m['chat'], {
+    'extendedTextMessage': {
+        'text': msg,
+        'contextInfo': {
+            'externalAdReply': {
+                'title': '*[ ⚠ ] معلومه مهمه*',
+                'body': 'اشترك ف قناتي',
+                'thumbnail': imagen1,
+                'sourceUrl': 'https://youtube.com/@7ussein_ali1'
+            }
+        }
+    }
+  }, aa);
+  if (msg) return conn['relayMessage'](m['chat'], prep['message'], {
+  'messageId': prep['key']['id']
+  });
 };
-
 const file = global.__filename(import.meta.url, true);
 watchFile(file, async () => {
   unwatchFile(file);
