@@ -1339,7 +1339,7 @@ const messageText = `_*< USUARIO SUSPENDIDO />*_\n
             }
           }
           if (m.limit) {
-            m.reply('*[ ℹ️ ] تم استخدام ' + +m.limit + ' الماس(s) (حدود).*');
+            m.reply('*[ ℹ️ ] Se utilizaron ' + +m.limit + ' diamante(s) (limites).*');
           }
         }
         break;
@@ -1433,8 +1433,8 @@ export async function participantsUpdate({id, participants, action}) {
             const userPrefix = antiArab.some((prefix) => user.startsWith(prefix));
             const botTt2 = groupMetadata.participants.find((u) => m.conn.decodeJid(u.id) == m.conn.user.jid) || {};
             const isBotAdminNn = botTt2?.admin === 'admin' || false;
-            text = (action === 'add' ? (chat.sWelcome || this.welcome || conn.welcome || 'اهلا بيك ياحب نورتنا ف الجروب ان شاء الله تتفاعل معانا, @user!').replace('@subject', await m.conn.getName(id)).replace('@desc', groupMetadata.desc?.toString() || '*اقرء الوصف*') :
-                              (chat.sBye || this.bye || conn.bye || 'ف ستين داهيه بقا هي جت عليك, @user!')).replace('@user', '@' + user.split('@')[0]);
+            text = (action === 'add' ? (chat.sWelcome || this.welcome || conn.welcome || 'نورتنا ياحب وان شاء الله تتفاعل معانا دايما, @user!').replace('@subject', await m.conn.getName(id)).replace('@desc', groupMetadata.desc?.toString() || '*شوف الوصف*') :
+                              (chat.sBye || this.bye || conn.bye || 'ف ستين داهيه هي واقفه عليك؟, @user!')).replace('@user', '@' + user.split('@')[0]);
             if (userPrefix && chat.antiArab && botTt.restrict && isBotAdminNn && action === 'add') {
               const responseb = await m.conn.groupParticipantsUpdate(id, [user], 'remove');
               if (responseb[0].status === '404') return;
@@ -1450,7 +1450,7 @@ export async function participantsUpdate({id, participants, action}) {
     case 'promote':
     case 'daradmin':
     case 'darpoder':
-      text = (chat.sPromote || this.spromote || conn.spromote || '@user ```انت دلوقتي مشرف ياعم افرح بقااا```');
+      text = (chat.sPromote || this.spromote || conn.spromote || '@user ```يلا نبارك للعضو بتاعنا بقا مشرف قد الدنيا```');
     case 'demote':
     case 'quitarpoder':
     case 'quitaradmin':
@@ -1480,10 +1480,10 @@ export async function groupsUpdate(groupsUpdate) {
     if (groupUpdate.subjectTime) continue;
     const chats = global.db.data.chats[id]; let text = '';
     if (!chats?.detect) continue;
-    if (groupUpdate.desc) text = (chats.sDesc || this.sDesc || conn.sDesc || '```تم تغيير بايو الجروب```\n@desc').replace('@desc', groupUpdate.desc);
+    if (groupUpdate.desc) text = (chats.sDesc || this.sDesc || conn.sDesc || '```تم تغيير وصف الجروب```\n@desc').replace('@desc', groupUpdate.desc);
     if (groupUpdate.subject) text = (chats.sSubject || this.sSubject || conn.sSubject || '```تم تغيير اسم الجروب```\n@subject').replace('@subject', groupUpdate.subject);
-    if (groupUpdate.icon) text = (chats.sIcon || this.sIcon || conn.sIcon || '```تم تغيير صورة الجروب(مش حلوة)😂```').replace('@icon', groupUpdate.icon);
-    if (groupUpdate.revoke) text = (chats.sRevoke || this.sRevoke || conn.sRevoke || '```تم تغيير لينك الجروب الى```\n@revoke').replace('@revoke', groupUpdate.revoke);
+    if (groupUpdate.icon) text = (chats.sIcon || this.sIcon || conn.sIcon || '```تم تغيير صورة الجروب```').replace('@icon', groupUpdate.icon);
+    if (groupUpdate.revoke) text = (chats.sRevoke || this.sRevoke || conn.sRevoke || '```تم تغيير لينك الجروب```\n@revoke').replace('@revoke', groupUpdate.revoke);
     if (!text) continue;
     await mconn.conn.sendMessage(id, {text, mentions: mconn.conn.parseMention(text)});
   }
@@ -1533,7 +1533,6 @@ let date = d.toLocaleDateString('es', { day: 'numeric', month: 'long', year: 'nu
 
 global.dfail = (type, m, conn) => {
   const msg = {
-
     rowner: '*[ ℹ️ ] الامر ده للمطور بس يابابا متلعبش فيه.*',
     owner: '*[ ℹ️ ] الامر ده للمطور بس يابابا متلعبش فيه.*',
     mods: '*[ ℹ️ ] الامر ده للمشرفين والمطور بس ياحب.*',
